@@ -18,7 +18,6 @@ const EntryFlow = () => {
             title: "Sign in", 
             tabBarVisible: false 
           }} 
-          initialParams={{ password: '123' }}
         />
         <Tab.Screen 
           name="Signup" 
@@ -27,7 +26,6 @@ const EntryFlow = () => {
             title: "Sign up", 
             tabBarVisible: false 
           }} 
-          initialParams={{ password: '123' }}
         />
       </Tab.Navigator>
     </>

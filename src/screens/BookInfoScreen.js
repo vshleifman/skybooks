@@ -1,25 +1,58 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
-import BookContext from '../context/BookContext';
-import { useNavigation, useRoute, NavigationContainer } from '@react-navigation/native';
+import { Context as BookContext } from '../context/BookContext';
+import { Context as AuthContext } from '../context/AuthContext';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const BookInfoScreen = () => {
-  const { myBooks, books, addMyBooks } = useContext(BookContext);
+  const { state:bookState } = useContext(BookContext);
+  const { state: authState, getUser, addMyBooks, deleteMyBook } = useContext(AuthContext)
+
   const { params } = useRoute();
+  const { book } = params;
+  
   const navigation = useNavigation();
+  
+  useEffect(() => {
+    navigation.setOptions({ title: book.title });
+    getUser();
+  }, []);
 
-  useEffect(() => navigation.setOptions({ title: book.title }), []);
+  const Add = () => {
+  console.log(book._id);
 
-  const isMatch = book => book.title === params.title;
-  const book = books.find(isMatch);
+    const bookStatus = authState.user.books?.includes(book._id)
+    return (
+      <Button title={bookStatus.toString()} onPress={() => {
+        bookStatus === true
+        ? deleteMyBook(book._id)
+        : addMyBooks(book._id)
+      }} />
+    )
+  };
   
   return (
-    <View>
-      <Text>{JSON.stringify(book, null, 2)}</Text>
-      <Button title="add to my books" onPress={() => addMyBooks(book)} />
+    <View style={styles.main}>
+      <Text style={styles.text}>Title: {book.title}</Text>
+      <Text style={styles.text}>Author: {book.author}</Text>
+      <Text style={styles.text}>Type: {book.type}</Text>
+      <Text style={styles.text}>Skill: {book.skill}</Text>
+      <Text style={styles.text}>Location: {book.location}</Text>
+      <Add />
+      
     </View>
   )
 };
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1
+  },
+  text: {
+    margin: 10,
+    fontSize: 20
+  }
+});
 
 export default BookInfoScreen;

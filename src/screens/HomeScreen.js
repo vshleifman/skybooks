@@ -10,10 +10,10 @@ const HomeScreen = () => {
   return (
     <Tab.Navigator 
       tabBarOptions={{ 
-        labelStyle: { fontSize: 30 } 
+        labelStyle: { fontSize: 30 }
       }}>
-      <Tab.Screen name="AllBooks" component={AllBooksTab}/>
-      <Tab.Screen name="MyBooks" component={MyBooksTab}/>
+      <Tab.Screen name="AllBooks" options={{unmountOnBlur: true}} component={AllBooksTab}/>
+      <Tab.Screen name="MyBooks" options={{unmountOnBlur: true}} component={MyBooksTab}/>
     </Tab.Navigator>
   )
 };

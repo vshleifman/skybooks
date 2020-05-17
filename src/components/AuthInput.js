@@ -1,15 +1,16 @@
 import React, { useState, useContext } from 'react'
 import { TextInput, Button, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-import AuthContext from '../context/AuthContext';
+import { Context as AuthContext } from '../context/AuthContext';
 
 const AuthInput = ({ navigation, route, value}) => {
-  const { switchSign } = useContext(AuthContext);
+  const { state, signup, signin, clearErr } = useContext(AuthContext);
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   return (
     <View style={styles.main}>
       <View style={styles.form}>
+      {state.errorMessage ? <Text style={styles.error}>{state.errorMessage}</Text> : null}
         <TextInput 
           style={styles.input}
           onChangeText={setEmail}
@@ -29,18 +30,22 @@ const AuthInput = ({ navigation, route, value}) => {
         <Button 
           title="Enter" 
           onPress={() => {
-              if (password === route.params.password) {
-                switchSign(true)
-              } else {
-                navigation.navigate('Entry', {value: 'Wrong'})
-              }
+              value === 'up' 
+              ? signup({ email, password }) 
+              : signin({ email, password })
             }
           }
         />
       </View>
       <View style={styles.linkContainer}>
         <TouchableOpacity onPress={() => {
-          value === 'up' ? navigation.navigate('Signin') : navigation.navigate('Signup')
+          if (value === 'up') {
+            navigation.navigate('Signin')
+            clearErr()
+          } else {
+            navigation.navigate('Signup')
+            clearErr()
+          }
         }}>
           {
             value === 'in' 
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1
   },
-    form: {
+  form: {
     flex: 10,
     justifyContent: 'center',
     padding: 40
@@ -75,6 +80,11 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 15,
     color: 'blue'
+  },
+  error: {
+    color: 'red',
+    alignItems: 'center',
+    margin: 5
   }
 })
 

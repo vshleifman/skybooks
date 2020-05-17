@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Context as AuthContext } from '../context/AuthContext';
 
-const BookItem = ({ title }) => {
+const BookItem = ({ book }) => {
   const navigation = useNavigation();
-  
+
   return (
     <View style={styles.main}>
       <TouchableOpacity 
         style={styles.btn}
-        onPress={() => navigation.navigate('Book', {title}) }
+        onPress={() => navigation.navigate('Book', {book}) }
       >
-        <Text style={styles.text}>{title}</Text>
+        <Text style={styles.text}>{book?.title}</Text>
       </TouchableOpacity>
     </View>
   )
