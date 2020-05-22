@@ -4,23 +4,20 @@
     "author": "Carlovac Townway",
     "type": "Skill Book",
     "skill": "Conjuration",
-    "location": "Sacrificial Altar",
-    "read": true
+    "location": "Sacrificial Altar"
   },
   {
     "title": "3920, vol 10 - Frostfall",
     "author": "3arlovac Townway",
     "type": "Skill Book",
     "skill": "Conjuration",
-    "location": "Sacrificial Altar",
-    "read": false
+    "location": "Sacrificial Altar"
   },
   {
     "title": "4920, vol 10 - Frostfall",
     "author": "4arlovac Townway",
     "type": "Skill Book",
     "skill": "Conjuration",
-    "location": "Sacrificial Altar",
-    "read": false
+    "location": "Sacrificial Altar"
   }
 ]

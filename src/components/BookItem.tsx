@@ -1,18 +1,25 @@
 import React, { useContext } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Context as AuthContext } from '../context/AuthContext';
+import { Book } from '../types';
+import { BookScreenNavigationProp } from '../screens/AllBooksTab';
 
-const BookItem = ({ book }) => {
-  const navigation = useNavigation();
+interface BookItemProps { 
+  book: Book;
+};
+
+const BookItem = ({ book }: BookItemProps) => {
+  const navigation = useNavigation<BookScreenNavigationProp>();
+  
+  if (!book) return null;
 
   return (
     <View style={styles.main}>
       <TouchableOpacity 
         style={styles.btn}
-        onPress={() => navigation.navigate('Book', {book}) }
+        onPress={() => navigation.navigate('Book', { book }) }
       >
-        <Text style={styles.text}>{book?.title}</Text>
+        <Text style={styles.text}>{book.title}</Text>
       </TouchableOpacity>
     </View>
   )

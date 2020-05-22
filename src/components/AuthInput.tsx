@@ -1,16 +1,23 @@
 import React, { useState, useContext } from 'react'
-import { TextInput, Button, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { TextInput, Button, View, StyleSheet, TouchableOpacity, Text, StyleProp, ViewStyle } from 'react-native';
 
-import { Context as AuthContext } from '../context/AuthContext';
+// import { Context as AuthContext } from '../context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
 
-const AuthInput = ({ navigation, route, value}) => {
-  const { state, signup, signin, clearErr } = useContext(AuthContext);
+interface Props {
+  style: StyleProp<ViewStyle>,
+  value: 'up' | 'in',
+}
+
+const AuthInput: React.FC<Props> = ({ style, value }) => {
+  const navigation = useNavigation();
+  // const { state, signup, signin, clearErr } = useContext(AuthContext);
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   return (
-    <View style={styles.main}>
+    <View style={style}>
       <View style={styles.form}>
-      {state.errorMessage ? <Text style={styles.error}>{state.errorMessage}</Text> : null}
+      {/* {state.errorMessage ? <Text style={styles.error}>{state.errorMessage}</Text> : null} */}
         <TextInput 
           style={styles.input}
           onChangeText={setEmail}
@@ -30,9 +37,9 @@ const AuthInput = ({ navigation, route, value}) => {
         <Button 
           title="Enter" 
           onPress={() => {
-              value === 'up' 
-              ? signup({ email, password }) 
-              : signin({ email, password })
+              // value === 'up' 
+              // ? signup({ email, password }) 
+              // : signin({ email, password })
             }
           }
         />
@@ -41,10 +48,10 @@ const AuthInput = ({ navigation, route, value}) => {
         <TouchableOpacity onPress={() => {
           if (value === 'up') {
             navigation.navigate('Signin')
-            clearErr()
+            // clearErr()
           } else {
             navigation.navigate('Signup')
-            clearErr()
+            // clearErr()
           }
         }}>
           {

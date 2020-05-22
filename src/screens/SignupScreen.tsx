@@ -1,13 +1,13 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import AuthInput from '../components/AuthInput';
 
-const SignupScreen = ({ navigation, route }) => {
+const SignupScreen = () => {
   return (
     <View style={styles.main}>
       <Text style={styles.header}>Sign up</Text>
-      <AuthInput style={styles.form} value="up" navigation={navigation} route={route}/>
+      <AuthInput style={styles.form} value="up"/>
     </View>
   )
 };
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   form: {
-    flex: 10
+    flex: 1
   }
 });
 

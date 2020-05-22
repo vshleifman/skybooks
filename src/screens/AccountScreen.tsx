@@ -1,20 +1,20 @@
 import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Text, Button } from 'react-native';
-import { Context as AuthContext } from '../context/AuthContext';
+// import { Context as AuthContext } from '../context/AuthContext';
 
 const AccountScreen = () => {
-  const { state, signout, getUser } = useContext(AuthContext)
+  // const { state, signout, getUser } = useContext(AuthContext)
 
   useEffect(() => {
-    getUser();
+    // getUser();
   }, [])
 
   return (
     <View style={styles.main}>
       <View style={styles.button} >
-      <Text>{JSON.stringify(state.user, null, 2)}</Text>
-      <Text>You've read {state.user.books.length} books out of 820</Text>
-        <Button title="Log out" onPress={() => signout()} />
+      {/* <Text>{JSON.stringify(state.user, null, 2)}</Text> */}
+      {/* <Text>You've read {state.user.books.length} books out of 820</Text> */}
+        {/* <Button title="Log out" onPress={() => signout()} /> */}
       </View>
     </View>
   )

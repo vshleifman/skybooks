@@ -3,11 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import AuthInput from '../components/AuthInput';
 
-const SigninScreen = ({ navigation, route }) => {
+const SigninScreen = () => {
   return (
     <View style={styles.main}>
       <Text style={styles.header}>Sign in</Text>
-      <AuthInput style={styles.form} value='in' navigation={navigation} route={route}/>
+      <AuthInput style={styles.form} value='in'/>
     </View>
   )
 };
