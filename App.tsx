@@ -1,47 +1,33 @@
 import 'react-native-gesture-handler';
-import React, { useContext, useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
+import { Provider, useSelector } from 'react-redux';
 
-import EntryFlow from './src/screens/EntryFlow';
+import store from './store';
+
+import EntryScreen from './src/screens/EntryScreen';
 import MainFlow from './src/screens/MainFlow';
-// import { AuthProvider } from './src/context/AuthContext';
-import { Provider as BookProvider } from './src/context/BookContext';
-import { Provider as AuthProvider, Context as AuthContext } from './src/context/AuthContext'
-import AsyncStorage, { useAsyncStorage } from '@react-native-community/async-storage';
-
-
-const Stack = createStackNavigator();
+import Spinner from './src/components/Spinner';
+import { tokenSelector, userSelector } from './src/selectors/selectors';
 
 const App = () => {
-  const { state, autoSignin } = useContext(AuthContext);
-  const [isTokenInit, setIsTokenInit] = useState(false);
+  const token = useSelector(tokenSelector);
+  const user = useSelector(userSelector);
 
-  useEffect(() => {
-    autoSignin().then(() => setIsTokenInit(true));
-  }, [])
+  if (token === undefined || (token && !user)) {
+    return <Spinner />;
+  }
 
-  if (!isTokenInit) return null;
+  if (token === null) {
+    return <EntryScreen />;
+  }
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {state.token === null ? (
-            <Stack.Screen name="Entry" component={EntryFlow} options={{ headerShown: false }}/>
-        ) : (
-            <Stack.Screen name="Main" component={MainFlow} options={{ headerShown: false }}/>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
+  return <MainFlow />;
 };
 
 export default () => {
   return (
-    <AuthProvider>
-      <BookProvider>
-        <App />
-      </BookProvider>
-    </AuthProvider>
-  )
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
 };

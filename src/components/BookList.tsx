@@ -1,50 +1,58 @@
-import React, { useContext, useEffect } from 'react'
-import { View, FlatList } from 'react-native';
-
+import React, { useEffect } from 'react';
+import { View, FlatList, Button, StyleSheet } from 'react-native';
+import { BookScreenRouteProp } from '../screens/AllBooksTab';
 import BookItem from './BookItem';
-// import { Context as BookContext } from '../context/BookContext';
-// import { Context as AuthContext } from '../context/AuthContext';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import { booksSelector, userSelector } from '../selectors/selectors';
+import { setBooksThunk } from '../reducers/bookSlice';
 import { Book } from '../types';
 
-
 const BookList = () => {
-  // const { state: bookState, getBooks } = useContext(BookContext);
-  // const { state: authState, getUser} = useContext(AuthContext);
-  const navigation = useNavigation();
-  const { params } = useRoute();
-  const book: Book = {
-    title: "2920, vol 10 - Frostfall",
-    author: "Carlovac Townway",
-    type: "Skill Book",
-    skill: "Conjuration",
-    location: "Sacrificial Altar"
-  }
-
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // getUser();
-      // getBooks();
-    });
-    return unsubscribe;    
-  }, [navigation])
+    dispatch(setBooksThunk());
+  }, [])
+
+  const dispatch = useDispatch();
+  const { name } = useRoute<BookScreenRouteProp>();
+
+  const { books } = useSelector(booksSelector);
+  const user = useSelector(userSelector)!;
+  
+  const allBooksArr = Object.values(books);
+
+  const myBooksArr = user.books.map((id: string) =>
+    allBooksArr.find((myBook: Book) => myBook._id === id),
+  );
   
 
-  // const myBooks = authState.user?.books?.map(id => 
-    // bookState.books.find(myBook => myBook._id === id))
-
   return (
-    <>
-      <View>
-        <BookItem book={book}/>
-        {/* <FlatList 
-          data={params.tab === 'all' ? bookState.books: myBooks}
+    <View style={styles.main}>
+      <View style={styles.list}>
+        <FlatList
+          data={name === 'AllBooks' ? allBooksArr : myBooksArr}
           renderItem={({ item }) => <BookItem book={item} />}
           keyExtractor={item => item?._id}
-        /> */}
+        />
+
       </View>
-    </>
-  )
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
+  bar: {
+    borderColor: '#000',
+    borderWidth: 2,
+    flex: 1,
+    flexDirection: 'row'
+  },
+  list: {
+    flex: 9
+  },
+});
 
 export default BookList;
